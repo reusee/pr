@@ -22,15 +22,13 @@ type BacklogSize int
 
 func (_ BacklogSize) IsConsumeOption() {}
 
-type Put[T any] func(T) bool
-
 func Consume[T any](
 	ctx context.Context,
 	numThread int,
 	fn func(threadID int, value T) error,
 	options ...ConsumeOption,
 ) (
-	put Put[T],
+	put func(T) bool,
 	wait Wait,
 ) {
 

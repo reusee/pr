@@ -290,12 +290,13 @@ func TestConsume(
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 		var c int64
-		var put func(int) bool
+		var put Put
 		put, wait := Consume(
 			ctx,
 			8,
-			func(i int, n int) error {
+			func(i int, v any) error {
 				atomic.AddInt64(&c, 1)
+				n := v.(int)
 				if n == 0 {
 					return nil
 				}
